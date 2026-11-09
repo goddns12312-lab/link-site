@@ -1,4 +1,4 @@
-import { proxyFetch, injectIntoHtml } from '../_shared.js';
+import { proxyFetch, injectIntoHtml } from './_shared.js';
 
 export const config = { api: { bodyParser: false } };
 
@@ -10,13 +10,16 @@ export default async function handler(req, res) {
     return;
   }
 
-  const segments = Array.isArray(req.query.path) ? req.query.path : [req.query.path].filter(Boolean);
-  if (!segments.length) { res.status(400).send('Bad path'); return; }
+  const fullPath = req.query.__path || '';
+  const match = fullPath.match(/^([^\/]+)(\/.*)?$/);
+  if (!match) { res.status(400).send('Bad path'); return; }
 
-  const host = segments[0];
-  const restPath = '/' + segments.slice(1).join('/');
-  const qs = new URL(req.url, `https://${req.headers.host}`).search || '';
-  const target = 'https://' + host + restPath + qs;
+  const host = match[1];
+  const restPath = match[2] || '/';
+  const qs = req.query;
+  delete qs.__path;
+  const qsStr = Object.keys(qs).length ? '?' + new URLSearchParams(qs).toString() : '';
+  const target = 'https://' + host + restPath + qsStr;
 
   try {
     let reqBody;

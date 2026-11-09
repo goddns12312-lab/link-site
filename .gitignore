@@ -25,3 +25,5 @@ dist-ssr
 verify*.cjs
 *.bat
 *.vbs
+
+.vercel
