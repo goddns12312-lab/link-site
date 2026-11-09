@@ -1,0 +1,435 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Noto Sans KR", sans-serif;
+  --font-mono: "DM Mono", monospace;
+  --color-brand: #00c473;
+  --color-brand-light: #d1f7e6;
+  --color-brand-dark: #00a35e;
+  --color-accent: #f48b0a;
+  --color-accent-light: #ffe6b5;
+  --color-surface: #f7f8fa;
+  --color-surface-card: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+}
+
+/* ===== 1. 그린 임팩트 (기본) ===== */
+:root, :root[data-theme="green"] {
+  --color-brand: #00c473; --color-brand-light: #d1f7e6; --color-brand-dark: #00a35e;
+  --color-accent: #f48b0a; --color-accent-light: #ffe6b5;
+  --color-surface: #f4f7f5; --color-surface-card: #ffffff;
+  --color-text: #15241c; --color-text-muted: #6b7a72; --color-border: #e3ebe6;
+  --hero-bg: linear-gradient(135deg, #00c473 0%, #00a35e 55%, #017a47 100%);
+  --hero-text: #ffffff; --hero-sub: rgba(255,255,255,0.92);
+  --hero-glow: 0 0 40px rgba(0,196,115,0.45); --logo-glow: none;
+}
+
+/* ===== 2. 다크 골드 ===== */
+:root[data-theme="dark-gold"] {
+  --color-brand: #e8b44a; --color-brand-light: #2a2416; --color-brand-dark: #f0c868;
+  --color-accent: #e8b44a; --color-accent-light: #2a2416;
+  --color-surface: #0c0c0e; --color-surface-card: #17171b;
+  --color-text: #f3e8cb; --color-text-muted: #9a8f6f; --color-border: #2c2820;
+  --hero-bg: radial-gradient(ellipse at 50% 0%, #3a2f12 0%, #17140c 45%, #0c0c0e 100%);
+  --hero-text: #f0c868; --hero-sub: #c9b784;
+  --hero-glow: 0 0 60px rgba(232,180,74,0.35); --logo-glow: 0 0 24px rgba(240,200,104,0.6);
+}
+
+/* ===== 3. 네온 사이버 ===== */
+:root[data-theme="neon"] {
+  --color-brand: #c24dff; --color-brand-light: #1d1540; --color-brand-dark: #22d3ee;
+  --color-accent: #22d3ee; --color-accent-light: #0e2a33;
+  --color-surface: #0a0a1a; --color-surface-card: #13132b;
+  --color-text: #e8e8ff; --color-text-muted: #8a8ab8; --color-border: #272750;
+  --hero-bg: linear-gradient(135deg, #2a0f52 0%, #140d3a 45%, #0a1a3a 100%);
+  --hero-text: #ffffff; --hero-sub: #b9b0ff;
+  --hero-glow: 0 0 60px rgba(194,77,255,0.5); --logo-glow: 0 0 20px rgba(194,77,255,0.8), 0 0 40px rgba(34,211,238,0.5);
+}
+
+/* ===== 4. 딥블루 로열 ===== */
+:root[data-theme="blue-royal"] {
+  --color-brand: #5b9ae8; --color-brand-light: #16263f; --color-brand-dark: #e0b53f;
+  --color-accent: #e0b53f; --color-accent-light: #2a2316;
+  --color-surface: #0a1322; --color-surface-card: #122039;
+  --color-text: #e8eef8; --color-text-muted: #8ba0bf; --color-border: #22375a;
+  --hero-bg: linear-gradient(135deg, #1a3056 0%, #11213c 50%, #0a1322 100%);
+  --hero-text: #ffffff; --hero-sub: #b9cbe6;
+  --hero-glow: 0 0 55px rgba(91,154,232,0.4); --logo-glow: 0 0 22px rgba(224,181,63,0.5);
+}
+
+/* ===== 5. 옵시디언 골드 (흑요석+리치골드) ===== */
+:root[data-theme="obsidian-gold"] {
+  --color-brand: #f0c850; --color-brand-light: #241e12; --color-brand-dark: #ffd96b;
+  --color-accent: #f0c850; --color-accent-light: #241e12;
+  --color-surface: #08080a; --color-surface-card: #141210;
+  --color-text: #f5ecd4; --color-text-muted: #a3977a; --color-border: #2a2519;
+  --hero-bg: radial-gradient(ellipse 80% 60% at 50% -10%, #4a3a14 0%, #1a160d 42%, #08080a 100%);
+  --hero-text: #ffd96b; --hero-sub: #cbb888;
+  --hero-glow: 0 0 70px rgba(240,200,80,0.4); --logo-glow: 0 0 30px rgba(255,217,107,0.7);
+}
+
+/* ===== 6. 오로라 (딥인디고+청록/퍼플 오로라) ===== */
+:root[data-theme="aurora"] {
+  --color-brand: #45e0c0; --color-brand-light: #10231f; --color-brand-dark: #a855f7;
+  --color-accent: #a855f7; --color-accent-light: #1e1033;
+  --color-surface: #070a14; --color-surface-card: #0f1526;
+  --color-text: #e4ecf7; --color-text-muted: #8597b5; --color-border: #1d2740;
+  --hero-bg: linear-gradient(120deg, #0f2a4a 0%, #15524f 32%, #3a4a8a 64%, #1a1f4a 100%);
+  --hero-text: #ffffff; --hero-sub: #a5e8dc;
+  --hero-glow: 0 0 60px rgba(69,224,192,0.35); --logo-glow: 0 0 24px rgba(69,224,192,0.7), 0 0 48px rgba(168,85,247,0.4);
+}
+
+/* ===== 7. 크림슨 로얄 (와인레드+골드) ===== */
+:root[data-theme="crimson"] {
+  --color-brand: #e0b53f; --color-brand-light: #2a1816; --color-brand-dark: #f0c868;
+  --color-accent: #e0b53f; --color-accent-light: #2a1816;
+  --color-surface: #140608; --color-surface-card: #240e12;
+  --color-text: #f7e4e4; --color-text-muted: #c09090; --color-border: #3d1a20;
+  --hero-bg: radial-gradient(ellipse at 50% 0%, #6a1522 0%, #3a0c14 45%, #140608 100%);
+  --hero-text: #fff5e0; --hero-sub: #e5abab;
+  --hero-glow: 0 0 60px rgba(180,30,50,0.4); --logo-glow: 0 0 26px rgba(224,181,63,0.6);
+}
+
+/* ===== 8. 홀로그래픽 (이리데슨트 핑크/시안) ===== */
+:root[data-theme="holographic"] {
+  --color-brand: #ff6ec7; --color-brand-light: #1e1038; --color-brand-dark: #4dd0ff;
+  --color-accent: #4dd0ff; --color-accent-light: #0e2838;
+  --color-surface: #0a0812; --color-surface-card: #141022;
+  --color-text: #ececff; --color-text-muted: #9a92c0; --color-border: #272050;
+  --hero-bg: linear-gradient(120deg, #2a1050 0%, #4a1060 26%, #10304a 56%, #1a1050 100%);
+  --hero-text: #ffffff; --hero-sub: #e0b0ff;
+  --hero-glow: 0 0 60px rgba(255,110,199,0.4); --logo-glow: 0 0 22px rgba(255,110,199,0.8), 0 0 44px rgba(77,208,255,0.5);
+}
+
+/* ===== 9. 에메랄드 느와르 (near-black+에메랄드) ===== */
+:root[data-theme="emerald-noir"] {
+  --color-brand: #10e07a; --color-brand-light: #0a2418; --color-brand-dark: #4dffa0;
+  --color-accent: #c0c7d0; --color-accent-light: #1a2026;
+  --color-surface: #060a08; --color-surface-card: #101814;
+  --color-text: #e4f5ec; --color-text-muted: #84a594; --color-border: #1a2a22;
+  --hero-bg: radial-gradient(ellipse at 50% -10%, #0d4a30 0%, #0a1f16 46%, #060a08 100%);
+  --hero-text: #eafff4; --hero-sub: #8fe0b8;
+  --hero-glow: 0 0 60px rgba(16,224,122,0.35); --logo-glow: 0 0 24px rgba(16,224,122,0.7);
+}
+
+/* ===== 10. 선셋 글로우 (퍼플→코랄/핑크) ===== */
+:root[data-theme="sunset"] {
+  --color-brand: #ff7a59; --color-brand-light: #2e1628; --color-brand-dark: #ffb84d;
+  --color-accent: #ff4d8d; --color-accent-light: #2e1420;
+  --color-surface: #140a16; --color-surface-card: #221228;
+  --color-text: #f7e8f0; --color-text-muted: #c098b0; --color-border: #3a2040;
+  --hero-bg: linear-gradient(135deg, #4a1a5a 0%, #7a2a5a 36%, #b04a4a 66%, #c07040 100%);
+  --hero-text: #ffffff; --hero-sub: #ffd0b0;
+  --hero-glow: 0 0 60px rgba(255,122,89,0.4); --logo-glow: 0 0 24px rgba(255,122,89,0.7);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: var(--color-text);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-hero { background: var(--hero-bg); position: relative; }
+
+.hero-title { text-shadow: var(--logo-glow); }
+.hero-glow { box-shadow: var(--hero-glow); }
+
+/* 글래스모피즘 통계 카드 */
+.hero-stat {
+  background: color-mix(in oklab, var(--color-surface-card) 50%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklab, var(--color-brand) 35%, transparent);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* ===== 홀로그래픽 전용 프리미엄 연출 ===== */
+:root[data-theme="holographic"] .app-hero {
+  background: linear-gradient(120deg, #2a1050 0%, #4a1060 20%, #10304a 45%, #3a1a6a 70%, #1a1050 100%);
+  background-size: 220% 220%;
+  animation: holoShift 14s ease-in-out infinite;
+}
+:root[data-theme="holographic"] .app-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 25% 20%, rgba(255,110,199,0.22) 0%, transparent 38%),
+    radial-gradient(circle at 78% 72%, rgba(77,208,255,0.20) 0%, transparent 42%),
+    radial-gradient(circle at 60% 10%, rgba(168,85,247,0.18) 0%, transparent 40%);
+  animation: holoGlow 10s ease-in-out infinite alternate;
+}
+:root[data-theme="holographic"] .hero-title {
+  background: linear-gradient(90deg, #ff6ec7, #a855f7, #4dd0ff, #ff6ec7, #a855f7);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 0 22px rgba(255,110,199,0.55)) drop-shadow(0 0 40px rgba(77,208,255,0.35));
+  animation: holoText 7s linear infinite;
+}
+
+@keyframes holoShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes holoGlow {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+@keyframes holoText {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme="holographic"] .app-hero,
+  :root[data-theme="holographic"] .app-hero::after,
+  :root[data-theme="holographic"] .hero-title {
+    animation: none;
+  }
+}
+
+/* ===== 카테고리 카드 프리미엄 (테마 공통, 브랜드색 반응) ===== */
+.cat-card {
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.cat-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in oklab, var(--color-brand) 55%, transparent);
+  box-shadow: 0 12px 30px color-mix(in oklab, var(--color-brand) 20%, transparent);
+}
+.cat-card__head {
+  position: relative;
+  background: color-mix(in oklab, var(--color-brand) 12%, transparent);
+}
+.cat-card__head::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  height: 100%; width: 3px;
+  background: var(--color-brand);
+}
+
+/* ===== 메뉴 nav 아이템 ===== */
+.nav-item { transition: background .15s ease, color .15s ease, text-shadow .15s ease; }
+
+/* ===== 홀로그래픽 전용 포인트 ===== */
+:root[data-theme="holographic"] .cat-card__head {
+  background: linear-gradient(90deg, rgba(255,110,199,0.16), rgba(168,85,247,0.10) 50%, rgba(77,208,255,0.12));
+}
+:root[data-theme="holographic"] .cat-card__head::before {
+  background: linear-gradient(180deg, #ff6ec7, #a855f7, #4dd0ff);
+}
+:root[data-theme="holographic"] .cat-card:hover {
+  border-color: #ff6ec7;
+  box-shadow: 0 12px 34px rgba(255,110,199,0.25), 0 0 0 1px rgba(77,208,255,0.18);
+}
+:root[data-theme="holographic"] .nav-item:hover {
+  color: #4dd0ff;
+  text-shadow: 0 0 12px rgba(77,208,255,0.6);
+}
+:root[data-theme="holographic"] .holo-box {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--color-surface-card), var(--color-surface-card)) padding-box,
+    linear-gradient(90deg, #ff6ec7, #a855f7, #4dd0ff) border-box;
+  border: 1px solid transparent;
+}
+
+/* ===== 커스텀 스크롤바 ===== */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--color-surface); }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-brand) 55%, var(--color-border));
+  border-radius: 8px;
+  border: 3px solid var(--color-surface);
+}
+:root[data-theme="holographic"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff6ec7, #a855f7, #4dd0ff);
+  background-clip: padding-box;
+}
+
+/* ===== 홀로그램 그라데이션 글자 (로고 등) ===== */
+:root[data-theme="holographic"] .holo-text,
+:root[data-theme="holographic"] .holo-text * {
+  background: linear-gradient(90deg, #ff6ec7, #a855f7, #4dd0ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ===== 카테고리 건수 뱃지 ===== */
+:root[data-theme="holographic"] .cat-count {
+  background: linear-gradient(90deg, rgba(255,110,199,0.22), rgba(77,208,255,0.22));
+  color: #e4c2ff;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(168,85,247,0.4);
+  font-weight: 700;
+}
+
+/* ===== 더보기/접기 버튼 ===== */
+.more-btn { transition: color .15s ease, background .15s ease, text-shadow .15s ease; }
+:root[data-theme="holographic"] .more-btn:hover {
+  color: #4dd0ff;
+  background: linear-gradient(90deg, rgba(255,110,199,0.1), rgba(77,208,255,0.1));
+  text-shadow: 0 0 10px rgba(77,208,255,0.55);
+}
+
+/* ===== 업데이트 팝업 확인 버튼 ===== */
+:root[data-theme="holographic"] .holo-confirm {
+  background: linear-gradient(90deg, #ff6ec7, #a855f7, #4dd0ff) !important;
+  color: #0a0812 !important;
+}
+
+/* ===== 히어로 반짝임 입자 ===== */
+.hero-sparkles { display: none; }
+:root[data-theme="holographic"] .hero-sparkles {
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 18% 28%, #ffffff, transparent),
+    radial-gradient(2px 2px at 72% 62%, #4dd0ff, transparent),
+    radial-gradient(1.5px 1.5px at 42% 80%, #ff6ec7, transparent),
+    radial-gradient(2px 2px at 86% 24%, #ffffff, transparent),
+    radial-gradient(1.5px 1.5px at 56% 14%, #a855f7, transparent),
+    radial-gradient(1.5px 1.5px at 30% 65%, #ffffff, transparent),
+    radial-gradient(2px 2px at 64% 38%, #ff6ec7, transparent);
+  animation: sparkle 3.5s ease-in-out infinite alternate;
+  opacity: 0.75;
+}
+@keyframes sparkle {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme="holographic"] .hero-sparkles { animation: none; }
+}
+
+/* ===== 사이버 그리드 분위기 (콘텐츠 뒤, 홀로그래픽) ===== */
+#root { position: relative; z-index: 1; }
+:root[data-theme="holographic"] body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(168,85,247,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77,208,255,0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 55% at 50% 2%, #000 0%, transparent 72%);
+  mask-image: radial-gradient(ellipse 85% 55% at 50% 2%, #000 0%, transparent 72%);
+}
+
+/* ===== 링크 행 호버 리빌 (홀로그래픽) ===== */
+:root[data-theme="holographic"] .cat-card li { position: relative; }
+:root[data-theme="holographic"] .cat-card li::before {
+  content: ""; position: absolute; left: 0; top: 50%; translate: 0 -50%;
+  width: 2px; height: 0; border-radius: 0 2px 2px 0;
+  background: linear-gradient(180deg, #ff6ec7, #4dd0ff);
+  transition: height .28s cubic-bezier(.22,.61,.36,1);
+}
+:root[data-theme="holographic"] .cat-card li:hover::before { height: 60%; }
+:root[data-theme="holographic"] .cat-card li a {
+  background-image: linear-gradient(90deg, #ff6ec7, #a855f7 55%, #4dd0ff);
+  background-repeat: no-repeat;
+  background-position: 16px 100%;
+  background-size: 0% 2px;
+  transition: background-size .4s cubic-bezier(.22,.61,.36,1),
+              transform .3s cubic-bezier(.22,.61,.36,1), color .25s ease;
+}
+:root[data-theme="holographic"] .cat-card li a > span:first-child {
+  transition: color .25s ease, text-shadow .25s ease, scale .25s ease;
+}
+:root[data-theme="holographic"] .cat-card li a:hover,
+:root[data-theme="holographic"] .cat-card li a:focus-visible {
+  transform: translateX(3px);
+  background-size: calc(100% - 32px) 2px;
+  color: #ffffff;
+}
+:root[data-theme="holographic"] .cat-card li a:hover > span:first-child,
+:root[data-theme="holographic"] .cat-card li a:focus-visible > span:first-child {
+  color: #4dd0ff; text-shadow: 0 0 10px rgba(77,208,255,.7); scale: 1.12;
+}
+
+/* ===== 카드 포일 광택 스윕 (호버) ===== */
+.cat-card { position: relative; }
+:root[data-theme="holographic"] .cat-card::before {
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,0.14) 46%, rgba(77,208,255,0.12) 52%, transparent 66%);
+  transform: translateX(-120%);
+  transition: transform .75s cubic-bezier(.22,.61,.36,1);
+}
+:root[data-theme="holographic"] .cat-card:hover::before { transform: translateX(120%); }
+
+/* ===== 스크롤 등장 (테마 공통, 지원 브라우저만) ===== */
+.cat-card { scroll-margin-top: 90px; }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .cat-card {
+      animation: catReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 2% entry 34%;
+    }
+    .cat-card:nth-child(4n+2) { animation-range: entry 6% entry 38%; }
+    .cat-card:nth-child(4n+3) { animation-range: entry 10% entry 42%; }
+    .cat-card:nth-child(4n+4) { animation-range: entry 14% entry 46%; }
+    @keyframes catReveal {
+      from { opacity: 0; translate: 0 22px; }
+      to   { opacity: 1; translate: 0 0; }
+    }
+  }
+}
+
+/* ===== 포커스 링 + 선택색 (테마 공통) ===== */
+.cat-card li a:focus-visible, .nav-item:focus-visible, .more-btn:focus-visible,
+.holo-confirm:focus-visible, .social-badge:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--color-brand) 85%, transparent);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+::selection {
+  background: color-mix(in oklab, var(--color-brand) 42%, transparent);
+  color: var(--color-text);
+}
+
+/* ===== 소셜 뱃지 팝 ===== */
+.social-badge { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.social-badge:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand, var(--color-brand));
+  box-shadow: 0 8px 22px color-mix(in oklab, var(--brand, var(--color-brand)) 38%, transparent);
+}
+
+/* ===== 시계 글로우 (홀로그래픽) ===== */
+:root[data-theme="holographic"] .live-clock { text-shadow: 0 0 14px rgba(77,208,255,0.3); }
+
+/* ===== 브릿지 페이지 파티클 ===== */
+.bridge-particles { display: none; }
+:root[data-theme="holographic"] .bridge-particles {
+  display: block;
+  background-image:
+    radial-gradient(2px 2px at 10% 15%, #ffffff33, transparent),
+    radial-gradient(2px 2px at 85% 25%, #4dd0ff44, transparent),
+    radial-gradient(1.5px 1.5px at 25% 75%, #ff6ec744, transparent),
+    radial-gradient(2px 2px at 60% 50%, #a855f733, transparent),
+    radial-gradient(1.5px 1.5px at 45% 90%, #ffffff22, transparent),
+    radial-gradient(2.5px 2.5px at 90% 70%, #ff6ec733, transparent),
+    radial-gradient(1.5px 1.5px at 5% 50%, #4dd0ff33, transparent);
+  animation: sparkle 4s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bridge-particles { animation: none !important; }
+}

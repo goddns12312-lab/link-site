@@ -1,0 +1,30 @@
+{
+  "siteName": "링크잇",
+  "siteNameEn": "LINK IT",
+  "telegram": { "handle": "@linkit", "url": "https://t.me/linkit" },
+  "permanent": { "label": "lki-77.de", "url": "https://lki-77.de" },
+  "topLinks": [
+    { "label": "링크등록문의", "url": "#" },
+    { "label": "배너문의", "url": "#" },
+    { "label": "공지사항", "url": "#" }
+  ],
+  "socials": [
+    { "name": "Google", "url": "https://www.google.com" },
+    { "name": "Youtube", "url": "https://www.youtube.com" },
+    { "name": "Naver", "url": "https://www.naver.com" },
+    { "name": "Band", "url": "https://band.us" },
+    { "name": "Daum", "url": "https://www.daum.net" },
+    { "name": "Kakao", "url": "https://www.kakaocorp.com" },
+    { "name": "Instagram", "url": "https://www.instagram.com" },
+    { "name": "Facebook", "url": "https://www.facebook.com" }
+  ],
+  "banners": [],
+  "bridge": {
+    "all": true,
+    "mode": "iframe",
+    "title": "링크잇 안내",
+    "message": "잠시 후 요청하신 사이트로 이동합니다.",
+    "notice": "최신 주소는 항상 링크잇에서 확인하세요 · 즐겨찾기 필수!",
+    "countdown": 3
+  }
+}
