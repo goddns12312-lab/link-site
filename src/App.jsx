@@ -59,7 +59,7 @@ export default function App() {
       <main>
         <InfoBoxes telegram={homeData?.telegram} permanent={homeData?.permanent} />
         <SocialRow socials={homeData?.socials} />
-        <BannerSection banners={homeData?.banners || []} />
+        <BannerSection />
         <DirectoryGrid
           categories={categories}
           onBridge={setBridgeLink}

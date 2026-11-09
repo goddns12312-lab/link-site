@@ -1,3 +1,5 @@
+import { readFileSync, writeFileSync, mkdirSync, unlinkSync, existsSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
@@ -105,6 +107,86 @@ function injectIntoHtml(html, realOrigin, hostname, pathDir) {
   return html;
 }
 
+function bannerApi() {
+  const pubDir = resolve('public');
+  const bDir = join(pubDir, 'banners');
+  const bJson = join(pubDir, 'banners.json');
+
+  function ensure() {
+    if (!existsSync(bDir)) mkdirSync(bDir, { recursive: true });
+    if (!existsSync(bJson)) writeFileSync(bJson, '[]');
+  }
+  function load() { ensure(); return JSON.parse(readFileSync(bJson, 'utf-8')); }
+  function save(d) { writeFileSync(bJson, JSON.stringify(d, null, 2)); }
+  function body(req) {
+    return new Promise(r => { const c = []; req.on('data', d => c.push(d)); req.on('end', () => r(Buffer.concat(c).toString())); });
+  }
+
+  return {
+    name: 'banner-api',
+    configureServer(server) {
+      server.middlewares.use('/api/banners/list', async (_req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(load()));
+      });
+
+      server.middlewares.use('/api/banners/add', async (req, res) => {
+        if (req.method !== 'POST') { res.writeHead(405); res.end(); return; }
+        const d = JSON.parse(await body(req));
+        const banners = load();
+        const id = 'b_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        const ext = d.ext || 'png';
+        const fname = id + '.' + ext;
+        writeFileSync(join(bDir, fname), Buffer.from(d.image, 'base64'));
+        banners.push({ id, image: '/banners/' + fname, url: d.url || '#', alt: d.alt || '', label: d.label || '', width: d.width || 0, height: d.height || 0 });
+        save(banners);
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ ok: true, id }));
+      });
+
+      server.middlewares.use('/api/banners/delete', async (req, res) => {
+        if (req.method !== 'POST') { res.writeHead(405); res.end(); return; }
+        const d = JSON.parse(await body(req));
+        let banners = load();
+        const t = banners.find(b => b.id === d.id);
+        if (t) {
+          const p = join(pubDir, t.image);
+          if (existsSync(p)) unlinkSync(p);
+          banners = banners.filter(b => b.id !== d.id);
+          save(banners);
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ ok: true }));
+      });
+
+      server.middlewares.use('/api/banners/reorder', async (req, res) => {
+        if (req.method !== 'POST') { res.writeHead(405); res.end(); return; }
+        const d = JSON.parse(await body(req));
+        const banners = load();
+        const m = new Map(banners.map(b => [b.id, b]));
+        save(d.ids.map(id => m.get(id)).filter(Boolean));
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ ok: true }));
+      });
+
+      server.middlewares.use('/api/banners/update', async (req, res) => {
+        if (req.method !== 'POST') { res.writeHead(405); res.end(); return; }
+        const d = JSON.parse(await body(req));
+        const banners = load();
+        const t = banners.find(b => b.id === d.id);
+        if (t) {
+          if (d.url !== undefined) t.url = d.url;
+          if (d.alt !== undefined) t.alt = d.alt;
+          if (d.label !== undefined) t.label = d.label;
+          save(banners);
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ ok: true }));
+      });
+    },
+  };
+}
+
 function frameProxy() {
   return {
     name: 'frame-proxy',
@@ -191,5 +273,5 @@ function frameProxy() {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), frameProxy()],
+  plugins: [react(), tailwindcss(), bannerApi(), frameProxy()],
 })

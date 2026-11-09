@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /proxy
+Disallow: /s/
+
+Sitemap: https://lki-77.de/sitemap.xml
