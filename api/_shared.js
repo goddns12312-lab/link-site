@@ -84,7 +84,7 @@ rawFetch('/banners.json',function(txt){
   }
   function replaceImg(img){
     var b=nextBanner();
-    if(!b)return false;
+    if(!b){var h=img.closest('a')||img;h.style.setProperty('display','none','important');return false}
     var a=img.closest('a');
     img.src=b.image;
     img.srcset='';
@@ -97,7 +97,7 @@ rawFetch('/banners.json',function(txt){
   }
   function replaceIframe(ifr){
     var b=nextBanner();
-    if(!b)return false;
+    if(!b){ifr.style.setProperty('display','none','important');return false}
     var a=document.createElement('a');
     a.href=b.url;a.target='_blank';a.rel='noopener noreferrer';
     a.style.cssText='display:block;width:'+ifr.offsetWidth+'px;max-width:100%;height:'+ifr.offsetHeight+'px;';
@@ -109,13 +109,10 @@ rawFetch('/banners.json',function(txt){
     return true;
   }
   function scan(){
-    if(used>=maxReplace)return;
     document.querySelectorAll('img:not([data-lki])').forEach(function(img){
-      if(used>=maxReplace)return;
       if(isBannerImg(img)){img.setAttribute('data-lki','1');replaceImg(img)}
     });
     document.querySelectorAll('iframe:not([data-lki])').forEach(function(ifr){
-      if(used>=maxReplace)return;
       var s=ifr.src||'';
       if(/ad|banner|popup|click|track|sponsor|doubleclick|googlesyndication/i.test(s)){
         ifr.setAttribute('data-lki','1');replaceIframe(ifr);
