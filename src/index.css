@@ -138,6 +138,34 @@ body {
 .app-hero { background: var(--hero-bg); position: relative; }
 
 .hero-title { text-shadow: var(--logo-glow); }
+
+/* ===== 로고 광택 스윕 애니메이션 ===== */
+.logo-shine {
+  position: relative;
+  overflow: hidden;
+}
+.logo-shine::after {
+  content: "";
+  position: absolute;
+  top: -20%; left: -75%;
+  width: 50%; height: 140%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255,255,255,0.35) 45%,
+    rgba(255,255,255,0.55) 50%,
+    rgba(255,255,255,0.35) 55%,
+    transparent 65%
+  );
+  animation: logoShine 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes logoShine {
+  0%, 100% { left: -75%; opacity: 0; }
+  15% { opacity: 1; }
+  50% { left: 130%; opacity: 1; }
+  65%, 100% { left: 130%; opacity: 0; }
+}
 .hero-glow { box-shadow: var(--hero-glow); }
 
 /* 글래스모피즘 통계 카드 */
