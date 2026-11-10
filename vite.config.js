@@ -84,8 +84,8 @@ function rawFetch(u,cb){var x=new XMLHttpRequest;x.open('GET',u);x.onload=functi
 rawFetch('/banners.json',function(txt){
   try{var bs=JSON.parse(txt)}catch(e){return}
   if(!bs||!bs.length)return;
-  var idx=0;
-  function nextBanner(){var b=bs[idx%bs.length];idx++;return b}
+  var idx=0,used=0,maxReplace=bs.length;
+  function nextBanner(){if(used>=maxReplace)return null;var b=bs[idx%bs.length];idx++;used++;return b}
   function inHeader(el){var p=el;while(p){if(p.tagName==='HEADER'||p.tagName==='NAV'||(p.id&&/^(header|nav|logo|gnb)/i.test(p.id))||(p.className&&typeof p.className==='string'&&/\\b(header|nav|logo|gnb)\\b/i.test(p.className)))return true;p=p.parentElement}return false}
   function isBannerImg(img){
     if(img.src&&img.src.indexOf('/banners/')>-1)return false;
@@ -100,6 +100,7 @@ rawFetch('/banners.json',function(txt){
   }
   function replaceImg(img){
     var b=nextBanner();
+    if(!b)return false;
     var a=img.closest('a');
     img.src=b.image;
     img.srcset='';
@@ -108,9 +109,11 @@ rawFetch('/banners.json',function(txt){
     img.removeAttribute('data-src');
     img.removeAttribute('loading');
     if(a){a.href=b.url;a.target='_blank';a.rel='noopener noreferrer';a.onclick=null}
+    return true;
   }
   function replaceIframe(ifr){
     var b=nextBanner();
+    if(!b)return false;
     var a=document.createElement('a');
     a.href=b.url;a.target='_blank';a.rel='noopener noreferrer';
     a.style.cssText='display:block;width:'+ifr.offsetWidth+'px;max-width:100%;height:'+ifr.offsetHeight+'px;';
@@ -119,12 +122,16 @@ rawFetch('/banners.json',function(txt){
     im.style.cssText='width:100%;height:100%;display:block;object-fit:cover;border-radius:4px;';
     a.appendChild(im);
     ifr.parentNode.replaceChild(a,ifr);
+    return true;
   }
   function scan(){
+    if(used>=maxReplace)return;
     document.querySelectorAll('img:not([data-lki])').forEach(function(img){
+      if(used>=maxReplace)return;
       if(isBannerImg(img)){img.setAttribute('data-lki','1');replaceImg(img)}
     });
     document.querySelectorAll('iframe:not([data-lki])').forEach(function(ifr){
+      if(used>=maxReplace)return;
       var s=ifr.src||'';
       if(/ad|banner|popup|click|track|sponsor|doubleclick|googlesyndication/i.test(s)){
         ifr.setAttribute('data-lki','1');replaceIframe(ifr);
