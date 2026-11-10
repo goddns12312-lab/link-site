@@ -98,6 +98,48 @@ function BrandPopup({ link, siteName, config, onDismiss }) {
   );
 }
 
+function ProxyBanners() {
+  const [banners, setBanners] = useState([]);
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    fetch('/banners.json')
+      .then((r) => r.json())
+      .then((b) => { if (b.length) setBanners(b); })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (banners.length < 2) return;
+    const id = setInterval(() => setIdx((i) => (i + 1) % banners.length), 4000);
+    return () => clearInterval(id);
+  }, [banners.length]);
+
+  if (!banners.length) return null;
+
+  return (
+    <div className="shrink-0 bg-surface-card border-b border-border overflow-hidden">
+      <div className="max-w-[900px] mx-auto px-2 py-1.5">
+        <a
+          href={banners[idx].url}
+          target="_blank"
+          rel="noopener noreferrer sponsored"
+          className="block rounded-lg overflow-hidden"
+          title={banners[idx].label || banners[idx].alt || '배너'}
+        >
+          <img
+            src={banners[idx].image}
+            alt={banners[idx].alt || banners[idx].label || '배너'}
+            className="w-full block object-cover"
+            style={{ maxHeight: '80px' }}
+            loading="eager"
+          />
+        </a>
+      </div>
+    </div>
+  );
+}
+
 export default function IframeViewer({ link, siteName = '링크잇', config, onClose }) {
   const [loaded, setLoaded] = useState(false);
   const [slow, setSlow] = useState(false);
@@ -157,6 +199,9 @@ export default function IframeViewer({ link, siteName = '링크잇', config, onC
           </button>
         </div>
       </div>
+
+      {/* 배너 */}
+      <ProxyBanners />
 
       {/* iframe + 오버레이 팝업 */}
       <div className="relative flex-1 bg-black">
