@@ -31,7 +31,7 @@ new MutationObserver(function(){setTimeout(k,200)}).observe(document.documentEle
 var __ref='${realOrigin}';
 var __host=(function(){try{return new URL(__ref).hostname}catch(e){return ''}})();
 /* same-origin이지만 Vite 경로가 아닌 요청을 원본 호스트로 리라이트 */
-function __rewriteSameOrigin(u){if(u.origin===location.origin&&__host&&!u.pathname.startsWith('/proxy')&&!u.pathname.startsWith('/s/')&&!u.pathname.startsWith('/src/')&&!u.pathname.startsWith('/@')&&!u.pathname.startsWith('/node_modules/')&&u.pathname!=='/'){return location.origin+'/s/'+__host+u.pathname+u.search}return null}
+function __rewriteSameOrigin(u){if(u.origin===location.origin&&__host&&!u.pathname.startsWith('/proxy')&&!u.pathname.startsWith('/s/')&&!u.pathname.startsWith('/src/')&&!u.pathname.startsWith('/@')&&!u.pathname.startsWith('/node_modules/')&&!u.pathname.startsWith('/banners')&&u.pathname!=='/banners.json'&&u.pathname!=='/'){return location.origin+'/s/'+__host+u.pathname+u.search}return null}
 /* 링크→프록시 변환 */
 function toProxy(url){
   try{var u=new URL(url,location.href);if(u.origin===location.origin&&(u.pathname.startsWith('/proxy')||u.pathname.startsWith('/s/')))return null;if(u.protocol==='http:'||u.protocol==='https:'){var p=location.origin+'/proxy?url='+encodeURIComponent(u.href);if(__ref)p+='&ref='+encodeURIComponent(__ref);return p}}catch(e){}
@@ -77,17 +77,40 @@ XMLHttpRequest.prototype.open=function(m,url){
 })()</script>`;
 }
 
+function buildBannerScript() {
+  return `<script>(function(){
+if(window.__lkiBannerDone)return;window.__lkiBannerDone=true;
+function rawFetch(u,cb){var x=new XMLHttpRequest;x.open('GET',u);x.onload=function(){cb(x.responseText)};x.onerror=function(){};x.send()}
+rawFetch('/banners.json',function(txt){
+  try{var bs=JSON.parse(txt)}catch(e){return}
+  if(!bs||!bs.length)return;
+  var idx=0;
+  var bar=document.createElement('div');
+  bar.id='__lki_banner';
+  bar.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:2147483647;background:#0a0a14;border-top:2px solid #a78bfa;padding:6px 8px;text-align:center;display:flex;align-items:center;justify-content:center;gap:10px;font-family:sans-serif;';
+  function render(){
+    var b=bs[idx%bs.length];
+    bar.innerHTML='<a href="'+b.url+'" target="_blank" rel="noopener noreferrer" style="display:block;max-width:728px;width:100%;"><img src="'+b.image+'" alt="'+(b.alt||'')+'" style="width:100%;max-height:70px;object-fit:contain;display:block;margin:0 auto;border-radius:6px;"></a>'
+      +'<button id="__lki_close" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:16px;width:26px;height:26px;border-radius:50%;cursor:pointer;line-height:1;">\\u2715</button>';
+    bar.querySelector('#__lki_close').onclick=function(){bar.style.display='none'};
+  }
+  render();
+  if(bs.length>1)setInterval(function(){idx++;render()},4000);
+  document.body.appendChild(bar);
+  document.body.style.paddingBottom=(bar.offsetHeight+4)+'px';
+});
+})()</script>`;
+}
+
 function injectIntoHtml(html, realOrigin, hostname, pathDir) {
   pathDir = pathDir || '/';
   const baseTag = `<base href="/s/${hostname}${pathDir}">`;
   const script = buildInjectedScript(realOrigin);
-  // anti-devtools 스크립트 제거 (iframe 환경 감지 차단 방지)
+  const bannerScript = buildBannerScript();
   html = html.replace(/<script[^>]*src=['"][^'"]*disabledev[^'"]*['"][^>]*><\/script>/gi, '');
   html = html.replace(/<script[^>]*src=['"][^'"]*disable-devtool[^'"]*['"][^>]*><\/script>/gi, '');
   html = html.replace(/<script[^>]*disable-devtool-auto[^>]*><\/script>/gi, '');
-  // devtools 감지 리다이렉트 무력화 (error0.html 리다이렉트 제거)
   html = html.replace(/window\.location\.href\s*=\s*["'][^"']*error[^"']*["']/gi, '/*noop*/');
-  // root-relative URL (/path) → /s/hostname/path 리라이트 (ISP 차단 우회)
   html = html.replace(/((?:src|href|action|poster)\s*=\s*["'])\/(?!\/|s\/)/gi, `$1/s/${hostname}/`);
   html = html.replace(/(url\s*\(\s*['"]?)\/(?!\/|s\/)/gi, `$1/s/${hostname}/`);
   if (html.includes('<head>')) {
@@ -98,11 +121,11 @@ function injectIntoHtml(html, realOrigin, hostname, pathDir) {
     html = baseTag + html;
   }
   if (html.includes('</body>')) {
-    html = html.replace('</body>', script + '</body>');
+    html = html.replace('</body>', script + bannerScript + '</body>');
   } else if (html.includes('</BODY>')) {
-    html = html.replace('</BODY>', script + '</BODY>');
+    html = html.replace('</BODY>', script + bannerScript + '</BODY>');
   } else {
-    html += script;
+    html += script + bannerScript;
   }
   return html;
 }
