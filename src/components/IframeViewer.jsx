@@ -200,9 +200,6 @@ export default function IframeViewer({ link, siteName = '링크잇', config, onC
         </div>
       </div>
 
-      {/* 배너 */}
-      <ProxyBanners />
-
       {/* iframe + 오버레이 팝업 */}
       <div className="relative flex-1 bg-black">
         <iframe
